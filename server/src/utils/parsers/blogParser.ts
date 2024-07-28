@@ -1,7 +1,7 @@
-import { BlogInput } from '../models/Blog'
-import { isString } from './typeCheck'
+import { IBlog } from '../../models/Blog'
+import { parseString } from './utilParsers'
 
-export const toNewBlog = (obj: unknown): BlogInput => {
+export const toNewBlog = (obj: unknown): IBlog => {
   if (!obj || typeof obj !== 'object') {
     throw new Error('Incorrect or missing data')
   }
@@ -18,11 +18,4 @@ export const toNewBlog = (obj: unknown): BlogInput => {
     title: parseString(obj.title, `title`),
     text: parseString(obj.text, 'text'),
   }
-}
-
-const parseString = (str: unknown, varName: string): string => {
-  if (!isString(str)) {
-    throw new Error(`Incorrect ${varName}: ` + str)
-  }
-  return str
 }

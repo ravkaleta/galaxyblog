@@ -1,5 +1,7 @@
 import express from 'express'
 import blogRouter from './routes/blogRouter'
+import userRouter from './routes/userRouter'
+import loginRouter from './routes/loginRouter'
 import mongoose from 'mongoose'
 import config from './utils/config'
 
@@ -19,6 +21,10 @@ mongoose
 app.use(express.json())
 
 app.get('/')
+
+app.use('/api/users', userRouter)
+
+app.use('/api/login', loginRouter)
 
 app.use('/api/images', express.static('uploads/images'))
 

@@ -1,14 +1,15 @@
 import mongoose from 'mongoose'
+import { toJSONTransformId } from '../utils/transform'
 
-export interface BlogInput {
+export interface IBlog {
   title: string
   text: string
   imageUrl?: string
 }
 
-export interface BlogDocument extends BlogInput, mongoose.Document {}
+export interface IBlogDocument extends IBlog, mongoose.Document {}
 
-const schema = new mongoose.Schema<BlogDocument>({
+const schema = new mongoose.Schema<IBlogDocument>({
   title: {
     type: String,
     required: true,
@@ -23,12 +24,7 @@ const schema = new mongoose.Schema<BlogDocument>({
 })
 
 schema.set('toJSON', {
-  transform: (_document, returnedObject) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  },
+  transform: toJSONTransformId,
 })
 
 export default mongoose.model('Blog', schema)

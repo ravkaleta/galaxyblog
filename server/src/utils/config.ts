@@ -5,9 +5,17 @@ dotenv.config()
 
 const PORT = 3000
 
+const TOKEN_SECRET = (): string => {
+  const TOKEN_SECRET = process.env.TOKEN_SECRET
+  if (!TOKEN_SECRET || typeof TOKEN_SECRET !== 'string') {
+    console.error('Missing token secret')
+    throw new Error('Server error.')
+  }
+  return TOKEN_SECRET
+}
+
 const MONGODB_URI = (): string => {
   const MONGODB_URI = process.env.MONGODB_URI
-  console.log(MONGODB_URI)
   if (!MONGODB_URI || typeof MONGODB_URI !== 'string') {
     throw new Error('Incorrect or missing mongodb uri')
   }
@@ -37,4 +45,4 @@ const upload = multer({
   },
 })
 
-export default { MONGODB_URI, PORT, upload }
+export default { MONGODB_URI, PORT, TOKEN_SECRET, upload }

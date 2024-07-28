@@ -1,7 +1,11 @@
 import { SyntheticEvent, useState } from 'react'
-import { Blog as BlogProps } from '../types'
+import { Blog as IBlog } from '../types'
 
-const Blog = ({ id, title, text, imageUrl }: BlogProps) => {
+interface BlogProps extends IBlog {
+  handleBlogDelete: (blogId: string) => void
+}
+
+const Blog = ({ id, title, text, imageUrl, handleBlogDelete }: BlogProps) => {
   const [comment, setComment] = useState('')
 
   const addComment = (event: SyntheticEvent) => {
@@ -15,7 +19,10 @@ const Blog = ({ id, title, text, imageUrl }: BlogProps) => {
 
   return (
     <div key={id}>
-      <p>{title}</p>
+      <p>
+        {title}
+        <button onClick={() => handleBlogDelete(id)}>delete blog</button>
+      </p>
       {text}
       {imageUrl && <img src={`/api/images/${imageUrl}`} width={'500px'} />}
       <form onSubmit={addComment}>
