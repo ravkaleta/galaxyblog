@@ -4,6 +4,7 @@ import accountRequest from '../requests/accountRequest'
 import { useMutation } from '@tanstack/react-query'
 import { useNotification, useUser } from '../providers/useContexts'
 import { AxiosError } from 'axios'
+import requestConfig from '../requests/requestConfig'
 
 const LoginForm = () => {
   const email = useField('text')
@@ -16,6 +17,7 @@ const LoginForm = () => {
     mutationFn: accountRequest.login,
     onSuccess: (response) => {
       const userToken = response.data
+      requestConfig.setToken(userToken.token)
       setUser(userToken)
       localStorage.setItem('user', JSON.stringify(userToken))
     },

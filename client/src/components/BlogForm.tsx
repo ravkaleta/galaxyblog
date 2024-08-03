@@ -6,10 +6,22 @@ import { useNotification } from '../providers/useContexts'
 import { Blog } from '../types'
 import { AxiosError } from 'axios'
 
-const NewBlogForm = () => {
+interface BlogFormProps {
+  prevTitle?: string
+  prevText?: string
+  blogId?: string
+  editMode?: boolean
+}
+
+const BlogForm = ({
+  prevTitle = '',
+  prevText = '',
+  blogId = '',
+  editMode = false,
+}: BlogFormProps) => {
   const queryClient = useQueryClient()
-  const title = useField('text')
-  const text = useField('text')
+  const title = useField('text', prevTitle)
+  const text = useField('text', prevText)
   const [image, setImage] = useState<Blob | null>(null)
 
   const { setTempNotification } = useNotification()
@@ -33,6 +45,26 @@ const NewBlogForm = () => {
     },
   })
 
+  const updateBlogMutation = useMutation({
+    mutationFn: (args: { objId: string; obj: FormData }) =>
+      blogRequest.update(args.objId, args.obj),
+    onSuccess: (updatedBlog) => {
+      const blogs = queryClient.getQueryData<Blog[]>(['blogs'])
+      queryClient.setQueryData(
+        ['blogs'],
+        blogs?.map((b) => (b.id !== updatedBlog.id ? b : updatedBlog))
+      )
+      setTempNotification('success', 'Succesfully updated blog', 5)
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        setTempNotification('error', error.response?.data, 5)
+      } else {
+        setTempNotification('error', error.message, 5)
+      }
+    },
+  })
+
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
 
@@ -41,26 +73,26 @@ const NewBlogForm = () => {
     }
   }
 
-  const addBlog = async (event: SyntheticEvent) => {
+  const saveBlog = async (event: SyntheticEvent) => {
     event.preventDefault()
     const formData = new FormData()
     if (image) {
       formData.append('image', image)
       console.log(formData)
     }
-    const newBlog = {
-      title: title.input.value,
-      text: text.input.value,
-    }
-    console.log(newBlog)
     formData.append('title', title.input.value)
     formData.append('text', text.input.value)
-    addBlogMutation.mutate(formData)
+    console.log(title.input.value)
+    if (editMode) {
+      updateBlogMutation.mutate({ objId: blogId, obj: formData })
+    } else {
+      addBlogMutation.mutate(formData)
+    }
   }
 
   return (
-    <form onSubmit={addBlog}>
-      <h2>new blog</h2>
+    <form onSubmit={saveBlog}>
+      <h2>{editMode ? 'edit blog' : 'new blog'}</h2>
       <div>
         title
         <input {...title.input} />
@@ -78,4 +110,4 @@ const NewBlogForm = () => {
   )
 }
 
-export default NewBlogForm
+export default BlogForm

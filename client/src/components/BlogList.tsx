@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import blogRequest from '../requests/blogRequest'
 import Blog from './Blog'
-import { useNotification } from '../providers/useContexts'
+import { useNotification, useUser } from '../providers/useContexts'
 import { AxiosError } from 'axios'
 
 const BlogList = () => {
@@ -10,6 +10,8 @@ const BlogList = () => {
     queryKey: ['blogs'],
     queryFn: blogRequest.getAll,
   })
+
+  const { user } = useUser()
 
   const { setTempNotification } = useNotification()
 
@@ -44,7 +46,12 @@ const BlogList = () => {
     <div>
       {blogs &&
         blogs.map((blog) => (
-          <Blog key={blog.id} {...blog} handleBlogDelete={handleBlogDelete} />
+          <Blog
+            key={blog.id}
+            blog={blog}
+            user={user}
+            handleBlogDelete={handleBlogDelete}
+          />
         ))}
     </div>
   )

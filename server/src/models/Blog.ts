@@ -5,7 +5,12 @@ export interface IBlog {
   title: string
   text: string
   imageUrl?: string
+  authorId: mongoose.ObjectId
+  authorName: string
+  date: string
 }
+
+export type INewBlog = Omit<IBlog, 'authorId' | 'authorName' | 'date'>
 
 export interface IBlogDocument extends IBlog, mongoose.Document {}
 
@@ -19,6 +24,19 @@ const schema = new mongoose.Schema<IBlogDocument>({
     required: true,
   },
   imageUrl: {
+    type: String,
+  },
+  authorId: {
+    required: true,
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  },
+  authorName: {
+    required: true,
+    type: String,
+  },
+  date: {
+    required: true,
     type: String,
   },
 })

@@ -15,7 +15,10 @@ const TOKEN_SECRET = (): string => {
 }
 
 const MONGODB_URI = (): string => {
-  const MONGODB_URI = process.env.MONGODB_URI
+  const MONGODB_URI =
+    process.env.NODE_ENV === 'test'
+      ? process.env.MONGODB_TEST_URI
+      : process.env.MONGODB_URI
   if (!MONGODB_URI || typeof MONGODB_URI !== 'string') {
     throw new Error('Incorrect or missing mongodb uri')
   }

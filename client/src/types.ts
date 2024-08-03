@@ -3,6 +3,9 @@ export interface Blog {
   title: string
   text: string
   imageUrl?: string
+  authorId: string
+  authorName: string
+  date: string
 }
 
 export interface LoginData {

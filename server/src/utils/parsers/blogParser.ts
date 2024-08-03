@@ -1,7 +1,7 @@
-import { IBlog } from '../../models/Blog'
+import { INewBlog } from '../../models/Blog'
 import { parseString } from './utilParsers'
 
-export const toNewBlog = (obj: unknown): IBlog => {
+export const toNewBlog = (obj: unknown): INewBlog => {
   if (!obj || typeof obj !== 'object') {
     throw new Error('Incorrect or missing data')
   }

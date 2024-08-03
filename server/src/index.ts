@@ -4,6 +4,7 @@ import userRouter from './routes/userRouter'
 import loginRouter from './routes/loginRouter'
 import mongoose from 'mongoose'
 import config from './utils/config'
+// import { tokenExtractor } from './middleware/userExtractor'
 
 const app = express()
 
@@ -19,6 +20,7 @@ mongoose
   })
 
 app.use(express.json())
+// app.use(tokenExtractor)
 
 app.get('/')
 
