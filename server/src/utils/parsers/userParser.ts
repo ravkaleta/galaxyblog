@@ -18,6 +18,14 @@ export const toNewUser = (obj: unknown): IUser => {
     throw new Error('Missing password')
   }
 
+  if (!('repeatPassword' in obj)) {
+    throw new Error('Missing password repeat')
+  }
+
+  if (obj.password !== obj.repeatPassword) {
+    throw new Error("Password does't match with password repeat")
+  }
+
   return {
     email: parseString(obj.email, `email`),
     username: parseString(obj.username, `username`),

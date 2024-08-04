@@ -27,7 +27,7 @@ router.post(
         throw new Error('You must log in to add new blog')
       }
       const user = req.user
-
+      // const file = req.file
       const parsedBlog = toNewBlog(req.body)
 
       const blogToAdd: IBlog = {

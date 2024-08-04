@@ -1,13 +1,19 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "outDir": "./build/",
+    "outDir": "./dist",
     "module": "commonjs",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": false,
+    "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
+  },
+  // "exclude": ["./dist", "__tests__", "jest.config.js", "./coverage"],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
   }
 }

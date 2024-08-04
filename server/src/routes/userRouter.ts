@@ -22,6 +22,7 @@ router.post('/', async (req, res) => {
       ...parsedUser,
       password: passwordHash,
     })
+
     res.status(201).json(savedUser)
   } catch (error) {
     let errorMessage = ''

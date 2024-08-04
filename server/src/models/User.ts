@@ -9,6 +9,13 @@ export interface IUser {
   comments: Array<mongoose.ObjectId>
 }
 
+export interface IUserRegister {
+  email: string
+  username: string
+  password: string
+  repeatPassword: string
+}
+
 export type IUserLogin = Pick<IUser, 'email' | 'password'>
 
 export interface IUserDocument extends IUser, mongoose.Document {}

@@ -5,7 +5,7 @@ export interface IBlog {
   title: string
   text: string
   imageUrl?: string
-  authorId: mongoose.ObjectId
+  authorId: mongoose.ObjectId | string
   authorName: string
   date: string
 }

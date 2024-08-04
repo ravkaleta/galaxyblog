@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
     } else {
       errorMessage += 'Something went wrong.'
     }
-    res.status(400).send(errorMessage)
+    res.status(401).send(errorMessage)
   }
 })
 
