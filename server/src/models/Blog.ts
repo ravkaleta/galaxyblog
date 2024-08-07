@@ -8,6 +8,7 @@ export interface IBlog {
   authorId: mongoose.ObjectId | string
   authorName: string
   date: string
+  comments: Array<mongoose.ObjectId>
 }
 
 export type INewBlog = Omit<IBlog, 'authorId' | 'authorName' | 'date'>
@@ -39,6 +40,12 @@ const schema = new mongoose.Schema<IBlogDocument>({
     required: true,
     type: String,
   },
+  comments: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 })
 
 schema.set('toJSON', {

@@ -1,7 +1,9 @@
-import { SyntheticEvent, useState } from 'react'
+import { useState } from 'react'
 import { Blog as IBlog } from '../types'
 import { IUserType } from '../providers/UserProvider'
 import BlogForm from './BlogForm'
+import CommentList from './CommentList'
+import CommentForm from './CommentForm'
 
 interface BlogProps {
   blog: IBlog
@@ -10,17 +12,7 @@ interface BlogProps {
 }
 
 const Blog = ({ blog, user, handleBlogDelete }: BlogProps) => {
-  const [comment, setComment] = useState('')
   const [editMode, setEditMode] = useState(false)
-
-  const addComment = (event: SyntheticEvent) => {
-    event.preventDefault()
-    const newComment = {
-      blogId: blog.id,
-      comment,
-    }
-    console.log(newComment)
-  }
 
   return (
     <div style={{ backgroundColor: 'gray', margin: '10px' }}>
@@ -46,13 +38,8 @@ const Blog = ({ blog, user, handleBlogDelete }: BlogProps) => {
       {blog.imageUrl && (
         <img src={`/api/images/${blog.imageUrl}`} width={'500px'} />
       )}
-      <form onSubmit={addComment}>
-        <textarea
-          value={comment}
-          onChange={({ target }) => setComment(target.value)}
-        />
-        <button type='submit'>add comment</button>
-      </form>
+      <CommentList blogId={blog.id} />
+      <CommentForm blogId={blog.id} />
     </div>
   )
 }

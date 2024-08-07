@@ -4,6 +4,6 @@ import { IUser } from '../providers/UserProvider'
 
 const register = (data: RegisterData) => axios.post('/api/users', data)
 
-const login = async (data: LoginData) => axios.post<IUser>('/api/login', data)
+const login = (data: LoginData) => axios.post<IUser>('/api/login', data)
 
 export default { register, login }

@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import config from '../utils/config'
-import User, { IUserDocument } from '../models/User'
+import { IUserDocument } from '../models/User'
+import userService from '../services/userService'
 
-export interface CustomRequest extends Request {
+export interface UserRequest extends Request {
   token?: string
   user?: IUserDocument
 }
@@ -13,21 +14,8 @@ export interface TokenData {
   username: string
 }
 
-// export const tokenExtractor = (
-//   req: CustomRequest,
-//   _res: Response,
-//   next: NextFunction
-// ) => {
-//   const authorization = req.get('authorization')
-//   if (authorization && authorization.startsWith('Bearer ')) {
-//     req.token = authorization.replace('Bearer ', '')
-//   }
-
-//   next()
-// }
-
 export const userExtractor = async (
-  req: CustomRequest,
+  req: UserRequest,
   res: Response,
   next: NextFunction
 ) => {
@@ -46,7 +34,7 @@ export const userExtractor = async (
     return res.status(401).send('Invalid token')
   }
 
-  const user = await User.findById(tokenData.id)
+  const user = await userService.getById(tokenData.id)
 
   if (!user) {
     return res.status(401).send('Malformatted token')

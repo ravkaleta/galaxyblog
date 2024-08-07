@@ -1,10 +1,12 @@
 import express from 'express'
+import 'express-async-errors'
 import blogRouter from './routes/blogRouter'
 import userRouter from './routes/userRouter'
 import loginRouter from './routes/loginRouter'
 import mongoose from 'mongoose'
 import config from './utils/config'
 import logger from './utils/logger'
+import { errorHandler } from './middleware/errorHandler'
 
 const app = express()
 
@@ -30,5 +32,7 @@ app.use('/api/login', loginRouter)
 app.use('/api/images', express.static('uploads/images'))
 
 app.use('/api/blogs', blogRouter)
+
+app.use(errorHandler)
 
 export default app

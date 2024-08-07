@@ -8,6 +8,17 @@ export interface Blog {
   date: string
 }
 
+export interface Comment {
+  id: string
+  content: string
+  date: string
+  blogId: string
+  authorName: string
+  authorId: string
+}
+
+export type NewComment = Pick<Comment, 'content'>
+
 export interface LoginData {
   email: string
   password: string

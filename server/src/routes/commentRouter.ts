@@ -2,13 +2,10 @@
 
 import express from 'express'
 import commentService from '../services/commentService'
-import { CustomRequest, userExtractor } from '../middleware/userExtractor'
-import { toNewComment } from '../utils/parsers/commentParser'
-import { IComment } from '../models/Comment'
-import mongoose from 'mongoose'
-const router = express.Router()
+import { UserRequest, userExtractor } from '../middleware/userExtractor'
+const router = express.Router({ mergeParams: true })
 
-interface CommentRequest extends CustomRequest {
+interface CommentRequest extends UserRequest {
   params: {
     blogId: string
     commentId?: string
@@ -22,37 +19,39 @@ router.get('/', async (req: CommentRequest, res) => {
 })
 
 router.post('/', userExtractor, async (req: CommentRequest, res) => {
-  try {
-    if (!req.user) {
-      throw new Error('You must log in to add comments')
-    }
-    const user = req.user
-    const blogId = req.params.blogId
-    const parsedComment = toNewComment(req.body)
-
-    console.log(blogId, parsedComment)
-
-    const newComment: IComment = {
-      ...parsedComment,
-      date: new Date().toISOString(),
-      blogId: blogId,
-      authorName: user.username,
-      authorId: user._id as mongoose.ObjectId,
-    }
-
-    const addedComment = await commentService.add(newComment)
-    user.comments.push(addedComment._id as mongoose.ObjectId)
-    await user.save()
-  } catch (error) {
-    let errorMessage = ''
-    if (error instanceof Error) {
-      errorMessage += error.message
-    } else {
-      errorMessage += 'Something went wrong.'
-    }
-
-    res.status(400).send(errorMessage)
+  if (!req.user) {
+    throw new Error('You must log in to add comments')
   }
+
+  const savedComment = await commentService.add(
+    req.user,
+    req.params.blogId,
+    req.body
+  )
+
+  res.send(savedComment)
 })
+
+router.delete(
+  '/:commentId',
+  userExtractor,
+  async (req: CommentRequest, res) => {
+    if (!req.user) {
+      throw new Error('You must log in to delete your comments')
+    }
+
+    if (!req.params.commentId) {
+      throw new Error('Comment id required')
+    }
+
+    await commentService.remove(
+      req.user,
+      req.params.blogId,
+      req.params.commentId
+    )
+
+    res.status(200).end()
+  }
+)
 
 export default router

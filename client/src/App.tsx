@@ -1,9 +1,11 @@
 import { useEffect } from 'react'
-import Home from './pages/Home'
+import HomePage from './pages/HomePage'
 import { useUser } from './providers/useContexts'
 import Notification from './components/Notification'
 import requestConfig from './requests/requestConfig'
 import { IUser } from './providers/UserProvider'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import LoginPage from './pages/LoginPage'
 
 const App = () => {
   const { setUser } = useUser()
@@ -18,10 +20,15 @@ const App = () => {
     }
   }, [])
 
+  const router = createBrowserRouter([
+    { path: '/', element: <HomePage /> },
+    { path: '/login', element: <LoginPage /> },
+  ])
+
   return (
     <div>
       <Notification />
-      <Home />
+      <RouterProvider router={router} />
     </div>
   )
 }

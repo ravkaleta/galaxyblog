@@ -6,16 +6,17 @@ export const toNewBlog = (obj: unknown): INewBlog => {
     throw new Error('Incorrect or missing data')
   }
 
-  if (!('title' in obj)) {
+  if (!('title' in obj) || obj.title === '') {
     throw new Error('Missing title for blog')
   }
 
-  if (!('text' in obj)) {
+  if (!('text' in obj) || obj.text === '') {
     throw new Error('Missing text for blog')
   }
 
   return {
     title: parseString(obj.title, `title`),
     text: parseString(obj.text, 'text'),
+    comments: [],
   }
 }
