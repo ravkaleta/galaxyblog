@@ -1,6 +1,10 @@
 import { useNotification } from '../providers/useContexts'
 
-const Notification = () => {
+interface NotificationProps {
+  className?: string
+}
+
+const Notification = ({ className }: NotificationProps) => {
   const { notification } = useNotification()
 
   if (!notification) {
@@ -21,7 +25,7 @@ const Notification = () => {
   }
 
   return (
-    <div>
+    <div className={`${className}`}>
       <p style={{ color: notificationColor() }}>{notification.content}</p>
     </div>
   )

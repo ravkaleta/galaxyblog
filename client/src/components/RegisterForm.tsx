@@ -4,6 +4,10 @@ import { SyntheticEvent } from 'react'
 import accountRequest from '../requests/accountRequest'
 import { useNotification } from '../providers/useContexts'
 import { AxiosError } from 'axios'
+import Button from './ui/form/Button'
+import Label from './ui/form/Label'
+import Input from './ui/form/Input'
+import FormField from './ui/form/FormField'
 
 const RegisterForm = () => {
   const email = useField('email')
@@ -46,25 +50,42 @@ const RegisterForm = () => {
   }
 
   return (
-    <form onSubmit={register}>
-      <h2>sign up</h2>
-      <div>
-        email
-        <input {...email.input} />
-      </div>
-      <div>
-        username
-        <input {...username.input} />
-      </div>
-      <div>
-        password
-        <input {...password.input} />
-      </div>
-      <div>
-        repeatPassword
-        <input {...repeatPassword.input} />
-      </div>
-      <button type='submit'>sign up</button>
+    <form
+      onSubmit={register}
+      className=' flex-1 flex flex-col px-6 py-4 gap-y-8 '
+    >
+      <h2 className='text-center text-white text-3xl'>Sign up</h2>
+      <FormField>
+        <Label htmlFor='registerEmail'>Email:</Label>
+        <Input id='registerEmail' {...email.input} placeholder='Email' />
+      </FormField>
+      <FormField>
+        <Label htmlFor='registerUsername'>Username:</Label>
+        <Input
+          id='registerUsername'
+          {...username.input}
+          placeholder='Username'
+        />
+      </FormField>
+      <FormField>
+        <Label htmlFor='registerPassword'>Password:</Label>
+        <Input
+          id='registerPassword'
+          {...password.input}
+          placeholder='Password'
+        />
+      </FormField>
+      <FormField>
+        <Label htmlFor='registerConfirmPassword'>Confirm Password:</Label>
+        <Input
+          id='registerConfirmPassword'
+          {...repeatPassword.input}
+          placeholder='Confirm Password'
+        />
+      </FormField>
+      <Button type='submit' className='block mx-auto'>
+        Create account
+      </Button>
     </form>
   )
 }

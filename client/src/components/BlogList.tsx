@@ -39,20 +39,26 @@ const BlogList = () => {
     deleteBlogMutation.mutate(blogId)
   }
 
-  const blogs = result.data
+  const blogs = result.data ? result.data.slice(0, 10) : []
   console.log(result.data)
 
   return (
-    <div>
-      {blogs &&
-        blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={user}
-            handleBlogDelete={handleBlogDelete}
-          />
-        ))}
+    <div className='w-full'>
+      <h2 className='text-white text-4xl font-extrabold text-center border-b border-white pb-6'>
+        Recent Blogs
+      </h2>
+      <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
+        {blogs &&
+          blogs.map((blog) => (
+            <div key={blog.id} className='flex items-center justify-center'>
+              <Blog
+                blog={blog}
+                user={user}
+                handleBlogDelete={handleBlogDelete}
+              />
+            </div>
+          ))}
+      </div>
     </div>
   )
 }

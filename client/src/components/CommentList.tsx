@@ -11,7 +11,7 @@ interface CommentListProps {
 const CommentList = ({ blogId }: CommentListProps) => {
   const queryClient = useQueryClient()
   const result = useQuery({
-    queryKey: ['comments'],
+    queryKey: ['comments', blogId],
     queryFn: () => commentRequest.getRelatedTo(blogId),
   })
 
@@ -36,7 +36,7 @@ const CommentList = ({ blogId }: CommentListProps) => {
   })
 
   if (result.isLoading) {
-    return <div>loading comments...</div>
+    return null
   }
 
   const handleBlogDelete = (blogId: string, commentId: string) => {
@@ -46,15 +46,18 @@ const CommentList = ({ blogId }: CommentListProps) => {
   const comments = result.data
 
   return (
-    <div>
-      {comments &&
+    <div className='mx-2'>
+      {comments ? (
         comments.map((comment) => (
           <Comment
             key={comment.id}
             comment={comment}
             handleBlogDelete={handleBlogDelete}
           />
-        ))}
+        ))
+      ) : (
+        <p>No comments</p>
+      )}
     </div>
   )
 }

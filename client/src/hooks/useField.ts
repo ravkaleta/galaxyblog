@@ -1,6 +1,6 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, HTMLInputTypeAttribute, useState } from 'react'
 
-const useField = (type: string, startingValue = '') => {
+const useField = (type: HTMLInputTypeAttribute, startingValue = '') => {
   const [value, setValue] = useState(startingValue)
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {

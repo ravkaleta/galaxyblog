@@ -1,13 +1,11 @@
 import BlogList from '../components/BlogList'
-import BlogForm from '../components/BlogForm'
-import Navbar from '../layouts/components/Navbar'
 
 const HomePage = () => {
   return (
-    <div>
-      <Navbar />
-      <BlogForm />
-      <BlogList />
+    <div className='flex-1'>
+      <div className='flex flex-col items-center justify-center'>
+        <BlogList />
+      </div>
     </div>
   )
 }

@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-50: #e5f2ff;
+    --color-primary-100: #cce5ff;
+    --color-primary-200: #99caff;
+    --color-primary-300: #66b0ff;
+    --color-primary-400: #3396ff;
+    --color-primary-500: #007bff;
+    --color-primary-600: #0063cc;
+    --color-primary-700: #004a99;
+    --color-primary-800: #003166;
+    --color-primary-900: #001933;
+    --color-primary-950: #000c19;
+
+    --color-secondary-50: #e5fff8;
+    --color-secondary-100: #ccfff1;
+    --color-secondary-200: #99ffe2;
+    --color-secondary-300: #66ffd4;
+    --color-secondary-400: #33ffc5;
+    --color-secondary-500: #00ffb8;
+    --color-secondary-600: #00cc92;
+    --color-secondary-700: #00996e;
+    --color-secondary-800: #006649;
+    --color-secondary-900: #003325;
+    --color-secondary-950: #001912;
+
+    --color-accent-50: #f4e5ff;
+    --color-accent-100: #e8ccff;
+    --color-accent-200: #d199ff;
+    --color-accent-300: #ba66ff;
+    --color-accent-400: #a333ff;
+    --color-accent-500: #8d00ff;
+    --color-accent-600: #7000cc;
+    --color-accent-700: #540099;
+    --color-accent-800: #380066;
+    --color-accent-900: #1c0033;
+    --color-accent-950: #0e0019;
+
+    --color-background-50: #edeef2;
+    --color-background-100: #dee0e8;
+    --color-background-200: #bdc0d1;
+    --color-background-300: #999eb8;
+    --color-background-400: #787fa1;
+    --color-background-500: #5c6384;
+    --color-background-600: #494f69;
+    --color-background-700: #363a4e;
+    --color-background-800: #262836;
+    --color-background-900: #13141b;
+    --color-background-950: #08090c;
+  }
+}
+
+.clip-blog-header {
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+}
+
+textarea::-webkit-scrollbar {
+  width: 12px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  border-radius: 35%;
+  background-color: var(--color-background-700); /* Change the thumb color */
+}
+
+textarea::-webkit-scrollbar-track {
+  border-radius: 5%;
+  background-color: var(--color-background-500); /* Change the track color */
+}
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes moveBack {
+  0% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.rightAndBack {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Cubic Bezier dla transformacji */
+}
+
+.rightAndBack:hover {
+  animation: moveRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.rightAndBack:mouseleave {
+  animation: moveBack 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}

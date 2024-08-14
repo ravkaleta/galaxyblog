@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import { Blog as IBlog } from '../types'
 import { IUserType } from '../providers/UserProvider'
-import BlogForm from './BlogForm'
-import CommentList from './CommentList'
-import CommentForm from './CommentForm'
+
+import { Link } from 'react-router-dom'
 
 interface BlogProps {
   blog: IBlog
@@ -11,36 +9,34 @@ interface BlogProps {
   handleBlogDelete: (blogId: string) => void
 }
 
-const Blog = ({ blog, user, handleBlogDelete }: BlogProps) => {
-  const [editMode, setEditMode] = useState(false)
+const Blog = ({ blog }: BlogProps) => {
+  const blogDate = new Date(blog.date).toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
 
   return (
-    <div style={{ backgroundColor: 'gray', margin: '10px' }}>
-      {user && user.id === blog.authorId && (
-        <div>
-          <button onClick={() => handleBlogDelete(blog.id)}>delete blog</button>
-          <button onClick={() => setEditMode((prev) => !prev)}>edit</button>
+    <Link
+      to='/blog'
+      className={`flex flex-col hover:scale-110 hover:shadow-[0_0_40px_rgba(0,200,150,0.1)] transition-all  justify-between w-96 h-64 min-w-80 bg-white bg-opacity-5 bg-cover bg-center border border-black text-white m-10 `}
+      style={{ backgroundImage: `url('api/images/${blog.imageUrl}')` }}
+    >
+      <div className='w-10/12 p-1 bg-black clip-blog-header shadow-md'>
+        <p className='ml-3'>
+          {blogDate} by
+          <span className='text-secondary-500'> {blog.authorName}</span>
+        </p>
+      </div>
+      {!blog.imageUrl && (
+        <div className='flex items-center justify-center h-2/5'>
+          <img src='logo.png' alt='' className='w-full h-full object-contain' />
         </div>
       )}
-      {editMode && (
-        <BlogForm
-          prevTitle={blog.title}
-          prevText={blog.text}
-          editMode={true}
-          blogId={blog.id}
-        />
-      )}
-      <p>
-        {blog.title} {blog.date}
-      </p>
-      <p>author: {blog.authorName}</p>
-      {blog.text}
-      {blog.imageUrl && (
-        <img src={`/api/images/${blog.imageUrl}`} width={'500px'} />
-      )}
-      <CommentList blogId={blog.id} />
-      <CommentForm blogId={blog.id} />
-    </div>
+      <div className='w-full h-2/5 bg-primary-950 text-gray-300'>
+        <h3 className='m-2'>{blog.text}</h3>
+      </div>
+    </Link>
   )
 }
 

@@ -1,17 +1,18 @@
-import { SyntheticEvent } from 'react'
-import useField from '../hooks/useField'
+import { SyntheticEvent, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import commentRequest from '../requests/commentRequest'
 import { Comment, NewComment } from '../types'
 import { AxiosError } from 'axios'
 import { useNotification } from '../providers/useContexts'
+import { ArrowRight } from 'react-feather'
 
 interface CommentFormProps {
   blogId: string
 }
 
 const CommentForm = ({ blogId }: CommentFormProps) => {
-  const content = useField('text')
+  const [commentContent, setCommentContent] = useState('')
+  const [isFocused, setFocused] = useState(false)
   const queryClient = useQueryClient()
 
   const { setTempNotification } = useNotification()
@@ -20,9 +21,9 @@ const CommentForm = ({ blogId }: CommentFormProps) => {
     mutationFn: (args: { blogId: string; comment: NewComment }) =>
       commentRequest.add(args.blogId, args.comment),
     onSuccess: (newComment) => {
-      const comments = queryClient.getQueryData<Comment[]>(['comments'])
+      const comments = queryClient.getQueryData<Comment[]>(['comments', blogId])
       queryClient.setQueryData(
-        ['comments'],
+        ['comments', blogId],
         comments ? comments.concat(newComment) : [newComment]
       )
       setTempNotification('success', 'Succesfully added new comment', 5)
@@ -40,18 +41,31 @@ const CommentForm = ({ blogId }: CommentFormProps) => {
     event.preventDefault()
 
     const comment: NewComment = {
-      content: content.input.value,
+      content: commentContent,
     }
 
     addCommentMutation.mutate({ blogId, comment })
 
-    content.reset()
+    setCommentContent('')
   }
 
   return (
-    <form onSubmit={addComment}>
-      <input {...content.input} />
-      <button type='submit'>add comment</button>
+    <form onSubmit={addComment} className='flex mx-2 border-b border-gray-500'>
+      <textarea
+        value={commentContent}
+        placeholder='Add comment'
+        onChange={(event) => setCommentContent(event.target.value)}
+        className={`resize-none bg-transparent w-11/12 transition-all ${isFocused ? 'h-26 overflow-visible' : 'h-10 overflow-hidden'} outline-none p-2`}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+      />
+      <button
+        type='submit'
+        className={`p-2 ${commentContent ? 'rightAndBack' : 'text-gray-500'}`}
+        disabled={!commentContent ? true : false}
+      >
+        <ArrowRight />
+      </button>
     </form>
   )
 }
