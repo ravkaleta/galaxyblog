@@ -22,12 +22,12 @@ The project is a form of training for me and the first project written in TypeSc
 <h3 align="center"> Home page </h3>
 
 <p align="center">
-    <img src="screenshots/home-page-desktop.jpg" width="75%" alt="Login page (desktop view)">
+    <img src="screenshots/home-page-desktop(new).jpg" width="75%" alt="Login page (desktop view)">
 </p>
 
 <p align="center">
-    <img src="screenshots/home-page-mobile.jpg" width="25%" alt="Login page (desktop view)">
-    <img src="screenshots/home-page-mobile-menu.jpg" width="25%" alt="Login page (desktop view)">
+    <img src="screenshots/home-page-mobile(new).jpg" width="25%" alt="Login page (desktop view)">
+    <img src="screenshots/home-page-mobile-menu(new).jpg" width="25%" alt="Login page (desktop view)">
 </p>
 
 <h3 align="center"> About page </h3>
