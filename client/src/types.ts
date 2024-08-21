@@ -6,6 +6,8 @@ export interface Blog {
   authorId: string
   authorName: string
   date: string
+  avgRating: number
+  totalRatings: number
 }
 
 export interface Comment {
@@ -18,6 +20,13 @@ export interface Comment {
 }
 
 export type NewComment = Pick<Comment, 'content'>
+
+export interface BlogRating {
+  id: string
+  value: number
+  authorId: string
+  blogId: string
+}
 
 export interface LoginData {
   email: string

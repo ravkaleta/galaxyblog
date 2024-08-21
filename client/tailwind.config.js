@@ -5,8 +5,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'login-background': "url('loginPageBackground.jpeg')",
-        'home-background': "url('background.jpg')",
+        'login-background': "url('/loginPageBackground.jpeg')",
+        'home-background': "url('/background.jpg')",
       },
       colors: {
         primary: {

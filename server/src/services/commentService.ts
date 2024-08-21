@@ -23,6 +23,11 @@ const add = async (
   blogId: string,
   commentObject: unknown
 ): Promise<ICommentDocument> => {
+  const blog = await Blog.findById(blogId)
+  if (!blog) {
+    throw new Error("Couldn't find matching blog")
+  }
+
   const parsedComment = toNewComment(commentObject)
 
   const comment: IComment = {
@@ -39,6 +44,9 @@ const add = async (
 
   user.comments.push(savedComment._id as mongoose.ObjectId)
   await user.save()
+
+  blog.ratings.push(savedComment._id as mongoose.ObjectId)
+  await blog.save()
 
   return savedComment
 }
@@ -57,16 +65,16 @@ const remove = async (
   const commentedBlog = await Blog.findById(blogId)
 
   if (!commentedBlog) {
-    throw new Error("Couldn't find blog related to comment")
+    throw new Error('Blog has been deleted')
   }
 
   await commentToDelete.deleteOne()
 
-  commentedBlog.comments.filter((id) => id.toString() !== commentToDelete.id)
-  await commentedBlog.save()
-
   user.comments.filter((id) => id.toString() !== commentToDelete.id)
   await user.save()
+
+  commentedBlog.comments.filter((id) => id.toString() !== commentToDelete.id)
+  await commentedBlog.save()
 }
 
 export default { getRelated, add, remove, getById }

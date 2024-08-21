@@ -3,6 +3,7 @@ import blogRequest from '../requests/blogRequest'
 import Blog from './Blog'
 import { useNotification, useUser } from '../providers/useContexts'
 import { AxiosError } from 'axios'
+import { Link } from 'react-router-dom'
 
 const BlogList = () => {
   const queryClient = useQueryClient()
@@ -43,22 +44,17 @@ const BlogList = () => {
   console.log(result.data)
 
   return (
-    <div className='w-full'>
-      <h2 className='text-white text-4xl font-extrabold text-center border-b border-white pb-6'>
-        Recent Blogs
-      </h2>
-      <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
-        {blogs &&
-          blogs.map((blog) => (
-            <div key={blog.id} className='flex items-center justify-center'>
-              <Blog
-                blog={blog}
-                user={user}
-                handleBlogDelete={handleBlogDelete}
-              />
-            </div>
-          ))}
-      </div>
+    <div className='w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
+      {blogs &&
+        blogs.map((blog) => (
+          <Link
+            to={`blog/${blog.id}`}
+            key={blog.id}
+            className='flex items-center justify-center'
+          >
+            <Blog blog={blog} user={user} handleBlogDelete={handleBlogDelete} />
+          </Link>
+        ))}
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { X } from 'react-feather'
 import React from 'react'
 
-interface props {
+interface Props {
   isMenuVisible: boolean
   handleVisibility: () => void
   handleLogout: () => void
@@ -12,20 +12,20 @@ const NavigationDrawerMenu = ({
   handleLogout,
   handleVisibility,
   isMenuVisible,
-}: props) => {
+}: Props) => {
   const options = [
     {
       category: 'Pages',
       links: [
         { name: 'Home', link: '/' },
-        { name: 'About', link: '/' },
+        { name: 'About', link: '/about' },
       ],
     },
     {
       category: 'Blogs',
       links: [
         { name: 'Browse', link: '/' },
-        { name: 'New blog', link: '/' },
+        { name: 'New blog', link: '/blog/new' },
       ],
     },
     {
@@ -54,7 +54,9 @@ const NavigationDrawerMenu = ({
               </h2>
               {option.links.map((link) => (
                 <li key={link.name} className=''>
-                  <Link to={link.link}>{link.name}</Link>
+                  <Link to={link.link} onClick={handleVisibility}>
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </React.Fragment>

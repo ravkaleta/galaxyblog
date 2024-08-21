@@ -31,6 +31,10 @@ const add = async (
     authorId: user._id as mongoose.ObjectId,
     authorName: user.username,
     date: new Date().toISOString(),
+    comments: [],
+    ratings: [],
+    avgRating: 0,
+    totalRatings: 0,
   }
 
   if (file) {
@@ -66,8 +70,16 @@ const remove = async (user: IUserDocument, blogId: string) => {
 
   await Comment.deleteMany({ blogId: blog._id })
   await User.updateMany(
-    { comments: { $in: blog.comments } },
-    { $pull: { comments: { $in: blog.comments } } }
+    {
+      comments: { $in: blog.comments },
+      blogRatings: { $in: blog.ratings },
+    },
+    {
+      $pull: {
+        comments: { $in: blog.comments },
+        blogRatings: { $in: blog.ratings },
+      },
+    }
   )
 }
 

@@ -17,6 +17,5 @@ export const toNewBlog = (obj: unknown): INewBlog => {
   return {
     title: parseString(obj.title, `title`),
     text: parseString(obj.text, 'text'),
-    comments: [],
   }
 }

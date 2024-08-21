@@ -6,7 +6,7 @@ export interface IComment {
   date: string
   blogId: mongoose.ObjectId | string
   authorName: string
-  authorId: mongoose.ObjectId
+  authorId: mongoose.ObjectId | string
 }
 
 export type INewComment = Pick<IComment, 'content'>

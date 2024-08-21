@@ -32,5 +32,6 @@ export const toNewUser = (obj: unknown): IUser => {
     password: parseString(obj.password, 'password'),
     blogs: [],
     comments: [],
+    blogRatings: [],
   }
 }

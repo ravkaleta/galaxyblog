@@ -1,10 +1,11 @@
-import { SyntheticEvent, useState } from 'react'
+import { SyntheticEvent, useRef, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import commentRequest from '../requests/commentRequest'
 import { Comment, NewComment } from '../types'
 import { AxiosError } from 'axios'
 import { useNotification } from '../providers/useContexts'
 import { ArrowRight } from 'react-feather'
+import useAutosizeTextArea from '../hooks/useAutosizeTextArea'
 
 interface CommentFormProps {
   blogId: string
@@ -12,8 +13,10 @@ interface CommentFormProps {
 
 const CommentForm = ({ blogId }: CommentFormProps) => {
   const [commentContent, setCommentContent] = useState('')
-  const [isFocused, setFocused] = useState(false)
   const queryClient = useQueryClient()
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+
+  useAutosizeTextArea(textAreaRef.current!, commentContent)
 
   const { setTempNotification } = useNotification()
 
@@ -50,18 +53,21 @@ const CommentForm = ({ blogId }: CommentFormProps) => {
   }
 
   return (
-    <form onSubmit={addComment} className='flex mx-2 border-b border-gray-500'>
+    <form
+      onSubmit={addComment}
+      className='w-full flex border-b my-4 border-gray-500 bg-white/5'
+    >
       <textarea
         value={commentContent}
         placeholder='Add comment'
         onChange={(event) => setCommentContent(event.target.value)}
-        className={`resize-none bg-transparent w-11/12 transition-all ${isFocused ? 'h-26 overflow-visible' : 'h-10 overflow-hidden'} outline-none p-2`}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        ref={textAreaRef}
+        rows={1}
+        className={`resize-none bg-transparent w-11/12 outline-none p-8 text-white`}
       />
       <button
         type='submit'
-        className={`p-2 ${commentContent ? 'rightAndBack' : 'text-gray-500'}`}
+        className={`p-2 text-white ${commentContent ? 'rightAndBack' : 'text-gray-500'}`}
         disabled={!commentContent ? true : false}
       >
         <ArrowRight />

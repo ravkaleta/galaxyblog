@@ -3,7 +3,7 @@ const Footer = () => {
     <div className='text-gray-300'>
       <p className='flex items-center text-center'>
         <img
-          src='logo.png'
+          src='/logo.png'
           alt='Website logo'
           width='30px'
           height='30px'

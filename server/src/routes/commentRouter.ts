@@ -29,7 +29,7 @@ router.post('/', userExtractor, async (req: CommentRequest, res) => {
     req.body
   )
 
-  res.send(savedComment)
+  res.status(201).send(savedComment)
 })
 
 router.delete(

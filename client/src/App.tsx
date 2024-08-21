@@ -6,6 +6,10 @@ import { IUser } from './providers/UserProvider'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import DefaultLayout from './layouts/DefaultLayout'
+import AboutPage from './pages/AboutPage'
+import BlogPage from './pages/BlogPage'
+import NewBlogPage from './pages/NewBlogPage'
+import EditBlogPage from './pages/EditBlogPage'
 
 const App = () => {
   const { setUser } = useUser()
@@ -28,6 +32,22 @@ const App = () => {
         {
           path: '',
           element: <HomePage />,
+        },
+        {
+          path: 'about',
+          element: <AboutPage />,
+        },
+        {
+          path: 'blog/:id',
+          element: <BlogPage />,
+        },
+        {
+          path: 'blog/new',
+          element: <NewBlogPage />,
+        },
+        {
+          path: 'blog/edit/:id',
+          element: <EditBlogPage />,
         },
       ],
     },

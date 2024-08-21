@@ -4,12 +4,19 @@ import blogService from '../services/blogService'
 import config from '../utils/config'
 import { UserRequest, userExtractor } from '../middleware/userExtractor'
 import commentRouter from './commentRouter'
+import blogRatingRouter from './blogRatingRouter'
 
 const router = express.Router()
 
 router.get('/', async (_req, res) => {
   const blogs = await blogService.getAll()
   res.send(blogs)
+})
+
+router.get('/:id', async (req, res) => {
+  const blogId = req.params.id
+  const blog = await blogService.getById(blogId)
+  res.send(blog)
 })
 
 router.post(
@@ -22,7 +29,7 @@ router.post(
     }
     const addedBlog = await blogService.add(req.user, req.body, req.file)
 
-    res.send(addedBlog)
+    res.status(201).send(addedBlog)
   }
 )
 
@@ -55,5 +62,6 @@ router.put(
 )
 
 router.use('/:blogId/comments', commentRouter)
+router.use('/:blogId/ratings', blogRatingRouter)
 
 export default router

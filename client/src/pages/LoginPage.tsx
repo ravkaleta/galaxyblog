@@ -19,7 +19,7 @@ const LoginPage = () => {
   }, [user, navigate])
 
   return (
-    <div className='flex flex-col h-screen w-screen items-center justify-center  bg-login-background bg-cover bg-center'>
+    <div className='flex flex-col h-screen w-screen items-center justify-center bg-login-background bg-cover bg-center'>
       <Link to='/' className='flex-[2] flex justify-center items-center'>
         <img
           src='logo1.png'
@@ -29,7 +29,7 @@ const LoginPage = () => {
         />
       </Link>
       <div className='flex-[5] flex w-screen items-start justify-center'>
-        <div className='flex flex-col w-2/3 max-w-md xl:max-w-4xl p-4 py-6 pb-8 border rounded-2xl backdrop-blur-sm bg-black bg-opacity-15 items-center'>
+        <div className='flex flex-col w-5/6 max-w-md xl:max-w-4xl p-4 py-6 pb-8 border rounded-2xl backdrop-blur-sm bg-black bg-opacity-15 items-center'>
           <Notification className='absolute top-2 text-xl border-red-500 bg-black bg-opacity-75 border p-1 px-4 rounded-md' />
           <div className='font-sans w-full flex flex-row items-center '>
             <div

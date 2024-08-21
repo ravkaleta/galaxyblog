@@ -7,6 +7,7 @@ export interface IUser {
   password: string
   blogs: Array<mongoose.ObjectId>
   comments: Array<mongoose.ObjectId>
+  blogRatings: Array<mongoose.ObjectId>
 }
 
 export interface IUserRegister {

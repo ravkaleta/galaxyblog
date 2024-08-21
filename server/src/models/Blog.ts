@@ -9,9 +9,12 @@ export interface IBlog {
   authorName: string
   date: string
   comments: Array<mongoose.ObjectId>
+  ratings: Array<mongoose.ObjectId>
+  avgRating: number
+  totalRatings: number
 }
 
-export type INewBlog = Omit<IBlog, 'authorId' | 'authorName' | 'date'>
+export type INewBlog = Pick<IBlog, 'title' | 'text' | 'imageUrl'>
 
 export interface IBlogDocument extends IBlog, mongoose.Document {}
 
@@ -46,6 +49,20 @@ const schema = new mongoose.Schema<IBlogDocument>({
       ref: 'Comment',
     },
   ],
+  ratings: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: 'BlogRating',
+    },
+  ],
+  avgRating: {
+    required: true,
+    type: Number,
+  },
+  totalRatings: {
+    required: true,
+    type: Number,
+  },
 })
 
 schema.set('toJSON', {

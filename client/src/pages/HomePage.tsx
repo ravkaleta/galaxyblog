@@ -1,12 +1,11 @@
 import BlogList from '../components/BlogList'
+import PageContainer from './components/PageContainer'
 
 const HomePage = () => {
   return (
-    <div className='flex-1'>
-      <div className='flex flex-col items-center justify-center'>
-        <BlogList />
-      </div>
-    </div>
+    <PageContainer header='Recent blogs' className='w-full '>
+      <BlogList />
+    </PageContainer>
   )
 }
 

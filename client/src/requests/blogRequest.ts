@@ -6,6 +6,9 @@ const url = '/api/blogs'
 
 const getAll = () => axios.get<Blog[]>(url).then((res) => res.data)
 
+const getById = (id: string | undefined) =>
+  axios.get<Blog>(`${url}/${id}`).then((res) => res.data)
+
 const add = (obj: FormData) =>
   axios.post<Blog>(url, obj, requestConfig.getConfig()).then((res) => res.data)
 
@@ -19,4 +22,4 @@ const update = (objId: string, obj: FormData) =>
     .put<Blog>(`${url}/${objId}`, obj, requestConfig.getConfig())
     .then((res) => res.data)
 
-export default { getAll, add, remove, update }
+export default { getAll, getById, add, remove, update }

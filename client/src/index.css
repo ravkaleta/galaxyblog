@@ -60,6 +60,7 @@
 
 textarea::-webkit-scrollbar {
   width: 12px;
+  display: none;
 }
 
 textarea::-webkit-scrollbar-thumb {
@@ -101,4 +102,20 @@ textarea::-webkit-scrollbar-track {
 
 .rightAndBack:mouseleave {
   animation: moveBack 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes pulse-scale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-pulse {
+  animation: pulse-scale 0.3s ease-in-out;
 }

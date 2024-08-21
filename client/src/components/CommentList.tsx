@@ -46,8 +46,8 @@ const CommentList = ({ blogId }: CommentListProps) => {
   const comments = result.data
 
   return (
-    <div className='mx-2'>
-      {comments ? (
+    <div className={`w-full ${comments?.length && 'border-t border-gray-500'}`}>
+      {comments?.length ? (
         comments.map((comment) => (
           <Comment
             key={comment.id}
@@ -56,7 +56,7 @@ const CommentList = ({ blogId }: CommentListProps) => {
           />
         ))
       ) : (
-        <p>No comments</p>
+        <p className=' text-white text-center'>No comments yet</p>
       )}
     </div>
   )

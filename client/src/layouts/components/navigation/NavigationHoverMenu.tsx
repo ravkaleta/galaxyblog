@@ -2,12 +2,12 @@ import { Menu } from 'react-feather'
 import { Link } from 'react-router-dom'
 import { IUser } from '../../../providers/UserProvider'
 
-interface props {
+interface Props {
   user: IUser
   handleLogout: () => void
 }
 
-const NavigationHoverMenu = ({ user, handleLogout }: props) => {
+const NavigationHoverMenu = ({ user, handleLogout }: Props) => {
   return (
     <div className='group relative inline-block'>
       <div className='hidden lg:flex items-center w-36 justify-between border border-gray-700 px-4 py-2 lg:group-hover:w-40 lg:group-hover:bg-white lg:group-hover:bg-opacity-5 transition-all bg-black bg-opacity-30 rounded-md'>
@@ -17,7 +17,7 @@ const NavigationHoverMenu = ({ user, handleLogout }: props) => {
 
       <div className='absolute hidden lg:group-hover:block ml-2 w-11/12'>
         <Link
-          to='/'
+          to='/blog/new'
           className='w-full text-center block border-b border-x border-gray-700 py-1 backdrop-blur-xl bg-black bg-opacity-75 hover:bg-white hover:bg-opacity-5'
         >
           New Blog
