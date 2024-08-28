@@ -10,7 +10,7 @@ const DefaultLayout = () => {
 
       <Navbar />
 
-      <div className='w-full flex-grow z-10 mt-40'>
+      <div className='w-full flex flex-col items-center flex-grow z-10 mt-20 lg:mt-40'>
         <Outlet />
       </div>
       <div className='w-full h-16 flex items-center justify-center'>

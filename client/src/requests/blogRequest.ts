@@ -4,7 +4,23 @@ import requestConfig from './requestConfig'
 
 const url = '/api/blogs'
 
-const getAll = () => axios.get<Blog[]>(url).then((res) => res.data)
+const getAll = (limit: number) =>
+  axios.get<Blog[]>(`${url}?limit=${limit.toString()}`).then((res) => res.data)
+
+const getSearched = (searchTerm: string, limit: number) =>
+  axios
+    .get<Blog[]>(`${url}?searchTerm=${searchTerm}&limit=${limit.toString()}`)
+    .then((res) => res.data)
+
+const getTop = (limit: number) =>
+  axios
+    .get<Blog[]>(`${url}?sort=top&limit=${limit.toString()}`)
+    .then((res) => res.data)
+
+const getNew = (limit: number) =>
+  axios
+    .get<Blog[]>(`${url}?sort=new&limit=${limit.toString()}`)
+    .then((res) => res.data)
 
 const getById = (id: string | undefined) =>
   axios.get<Blog>(`${url}/${id}`).then((res) => res.data)
@@ -22,4 +38,13 @@ const update = (objId: string, obj: FormData) =>
     .put<Blog>(`${url}/${objId}`, obj, requestConfig.getConfig())
     .then((res) => res.data)
 
-export default { getAll, getById, add, remove, update }
+export default {
+  getAll,
+  getSearched,
+  getTop,
+  getNew,
+  getById,
+  add,
+  remove,
+  update,
+}

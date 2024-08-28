@@ -2,14 +2,15 @@ import { Link, useLocation } from 'react-router-dom'
 
 const NavigationDesktopMenu = () => {
   const location = useLocation()
+
   const options = [
     { name: 'Home', link: '/' },
     { name: 'About', link: '/about' },
-    { name: 'Blogs', link: '/blogs' },
+    { name: 'Blogs', link: '/search' },
   ]
 
   return (
-    <div className='w-2/5 xl:w-1/3 hidden lg:flex relative text-xl justify-between'>
+    <div className='w-2/5 xl:w-1/3 hidden sm:flex items-center relative text-xl justify-between'>
       {options.map((option) => (
         <Link
           key={option.name}

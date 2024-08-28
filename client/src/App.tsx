@@ -10,6 +10,8 @@ import AboutPage from './pages/AboutPage'
 import BlogPage from './pages/BlogPage'
 import NewBlogPage from './pages/NewBlogPage'
 import EditBlogPage from './pages/EditBlogPage'
+import UserPage from './pages/UserPage'
+import SearchPage from './pages/SearchPage'
 
 const App = () => {
   const { setUser } = useUser()
@@ -18,7 +20,6 @@ const App = () => {
     const userToken = localStorage.getItem('user')
     if (userToken) {
       const userData: IUser = JSON.parse(userToken)
-      console.log(userData)
       requestConfig.setToken(userData.token)
       setUser(userData)
     }
@@ -34,8 +35,16 @@ const App = () => {
           element: <HomePage />,
         },
         {
+          path: 'search',
+          element: <SearchPage />,
+        },
+        {
           path: 'about',
           element: <AboutPage />,
+        },
+        {
+          path: 'user/:id',
+          element: <UserPage />,
         },
         {
           path: 'blog/:id',

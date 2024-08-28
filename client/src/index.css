@@ -55,22 +55,20 @@
 }
 
 .clip-blog-header {
-  clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 10% 100%);
 }
 
-textarea::-webkit-scrollbar {
-  width: 12px;
+.customScrollBar::-webkit-scrollbar {
+  height: 10px;
   display: none;
 }
 
-textarea::-webkit-scrollbar-thumb {
-  border-radius: 35%;
-  background-color: var(--color-background-700); /* Change the thumb color */
+.customScrollBar::-webkit-scrollbar-thumb {
+  background-color: var(--color-background-800);
 }
 
-textarea::-webkit-scrollbar-track {
-  border-radius: 5%;
-  background-color: var(--color-background-500); /* Change the track color */
+.customScrollBar::-webkit-scrollbar-track {
+  background-color: var(--color-background-600);
 }
 
 @keyframes moveRight {

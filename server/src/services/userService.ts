@@ -1,4 +1,4 @@
-import User from '../models/User'
+import User, { IUserDocument } from '../models/User'
 import bcrypt from 'bcrypt'
 import { toNewUser } from '../utils/parsers/userParser'
 import { toUserLogin } from '../utils/parsers/userLoginParser'
@@ -7,8 +7,27 @@ const getAll = async () => {
   return await User.find({})
 }
 
-const getById = async (id: string) => {
-  return await User.findById(id)
+const getById = async (id: string, withDetails: boolean = false) => {
+  let user: IUserDocument | null
+
+  if (withDetails) {
+    user = await User.findById(id)
+      .select('id username blogs')
+      .populate('blogs', {
+        title: 1,
+        imageUrl: 1,
+        date: 1,
+        avgRating: 1,
+        totalRatings: 1,
+      })
+  } else {
+    user = await User.findById(id)
+  }
+
+  if (!user) {
+    throw new Error("Couldn't find user with that id")
+  }
+  return user
 }
 
 const getByUsername = async (username: string) => {

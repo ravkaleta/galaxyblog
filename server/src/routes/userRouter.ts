@@ -9,6 +9,15 @@ router.get('/', async (_req, res) => {
   res.send(users)
 })
 
+router.get('/:id', async (req, res) => {
+  const userId = req.params.id
+  const withDetails = req.query.detailed === 'true'
+
+  const user = await userService.getById(userId, withDetails)
+
+  res.send(user)
+})
+
 router.post('/', async (req, res) => {
   const savedUser = await userService.add(req.body)
 

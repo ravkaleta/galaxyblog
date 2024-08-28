@@ -1,9 +1,8 @@
-import PageContainer from './components/PageContainer'
 import PageHeader from './components/PageHeader'
 
 const AboutPage = () => {
   return (
-    <PageContainer className='bg-black/60 p-10'>
+    <div className='w-11/12 mt-10 lg:mt-0 lg:w-8/12'>
       <PageHeader text='About the website' />
       <div className='pt-2 text-white text-xl'>
         <p className='text-center'>
@@ -23,7 +22,7 @@ const AboutPage = () => {
           well-organized and maintainable codebase.
         </p>
       </div>
-    </PageContainer>
+    </div>
   )
 }
 

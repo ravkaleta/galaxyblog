@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom'
 import BlogForm from '../components/BlogForm'
-import PageContainer from './components/PageContainer'
 import { useQuery } from '@tanstack/react-query'
 import blogRequest from '../requests/blogRequest'
 
@@ -21,9 +20,9 @@ const EditBlogPage = () => {
   }
 
   return (
-    <PageContainer className='lg:bg-black/60 p-10'>
+    <div className='flex flex-col items-center lg:w-9/12 lg:bg-black/60 p-4 lg:p-10'>
       <BlogForm blog={result.data} />
-    </PageContainer>
+    </div>
   )
 }
 

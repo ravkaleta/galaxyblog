@@ -5,8 +5,42 @@ import { toNewBlog } from '../utils/parsers/blogParser'
 import fs from 'fs'
 import Comment from '../models/Comment'
 
-const getAll = async (): Promise<IBlogDocument[]> => {
-  const blogs = await Blog.find({}).sort({ date: -1 })
+const getAll = async (limit?: number): Promise<IBlogDocument[]> => {
+  const blogLimit = limit && limit > 0 ? Math.min(limit, 100) : 100
+
+  const blogs = await Blog.find({}).sort({ date: -1 }).limit(blogLimit)
+  return blogs
+}
+
+const getSearched = async (
+  searchTerm: string,
+  limit?: number
+): Promise<IBlogDocument[]> => {
+  const blogLimit = limit && limit > 0 ? Math.min(limit, 100) : 100
+
+  const searchRegex = new RegExp(searchTerm, 'i')
+
+  const blogs = await Blog.find({
+    $or: [
+      { title: { $regex: searchRegex } },
+      { authorName: { $regex: searchRegex } },
+    ],
+  }).limit(blogLimit)
+
+  return blogs
+}
+
+const getTop = async (limit?: number): Promise<IBlogDocument[]> => {
+  const blogLimit = limit && limit > 0 ? Math.min(limit, 100) : 100
+
+  const blogs = await Blog.find().sort({ avgRating: -1 }).limit(blogLimit)
+  return blogs
+}
+
+const getNew = async (limit?: number): Promise<IBlogDocument[]> => {
+  const blogLimit = limit && limit > 0 ? Math.min(limit, 100) : 100
+
+  const blogs = await Blog.find().sort({ date: -1 }).limit(blogLimit)
   return blogs
 }
 
@@ -116,4 +150,13 @@ const update = async (
   return updatedBlog
 }
 
-export default { getAll, add, remove, update, getById }
+export default {
+  getAll,
+  getSearched,
+  getTop,
+  getNew,
+  add,
+  remove,
+  update,
+  getById,
+}

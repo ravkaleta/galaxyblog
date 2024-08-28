@@ -1,13 +1,13 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import PageContainer from './components/PageContainer'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import blogRequest from '../requests/blogRequest'
 import CommentList from '../components/CommentList'
 import CommentForm from '../components/CommentForm'
-import { Edit, Star, Trash } from 'react-feather'
+import { Edit, Trash } from 'react-feather'
 import BlogFeedback from '../components/BlogFeedback'
 import PageHeader from './components/PageHeader'
 import { useUser } from '../providers/useContexts'
+import BlogRating from '../components/ui/BlogRating'
 
 const BlogPage = () => {
   const { id } = useParams()
@@ -46,16 +46,10 @@ const BlogPage = () => {
   const totalRatings = blog.totalRatings ? blog.totalRatings : 0
 
   return (
-    <PageContainer className=' lg:bg-black/60 p-10'>
+    <div className='flex flex-col items-center w-full lg:w-9/12 lg:bg-black/60 p-4 lg:p-10'>
       <div className='w-full flex justify-between items-center mb-2'>
         <div className='text-white'>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Star
-              key={index}
-              className={`inline-block`}
-              fill={`${index + 1 <= avgRating ? 'white' : 'transparent'}`}
-            />
-          ))}
+          <BlogRating avgRating={avgRating} />
           <p className='mt-2 text-base text-center'>
             {!avgRating
               ? 'No ratings yet'
@@ -80,7 +74,7 @@ const BlogPage = () => {
       <PageHeader text={blog.title} />
       <h3 className='text-white'>
         by{' '}
-        <Link to='/' className='text-secondary-500'>
+        <Link to={`/user/${blog.authorId}`} className='text-secondary-500'>
           {blog.authorName}
         </Link>
       </h3>
@@ -105,7 +99,7 @@ const BlogPage = () => {
         <CommentForm blogId={blog.id} />
         <CommentList blogId={blog.id} />
       </div>
-    </PageContainer>
+    </div>
   )
 }
 

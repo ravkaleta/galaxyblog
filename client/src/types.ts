@@ -10,6 +10,14 @@ export interface Blog {
   totalRatings: number
 }
 
+export type BlogWithoutText = Omit<Blog, 'text'>
+
+export interface User {
+  id: string
+  username: string
+  blogs: [Blog]
+}
+
 export interface Comment {
   id: string
   content: string

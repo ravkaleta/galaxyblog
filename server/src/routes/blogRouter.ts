@@ -8,8 +8,22 @@ import blogRatingRouter from './blogRatingRouter'
 
 const router = express.Router()
 
-router.get('/', async (_req, res) => {
-  const blogs = await blogService.getAll()
+router.get('/', async (req, res) => {
+  const { sort, searchTerm, limit } = req.query
+
+  const parsedLimit = typeof limit === 'string' ? parseInt(limit) : undefined
+
+  let blogs
+  if (typeof searchTerm === 'string' && searchTerm.trim() !== '') {
+    blogs = await blogService.getSearched(searchTerm, parsedLimit)
+  } else if (sort === 'top') {
+    blogs = await blogService.getTop(parsedLimit)
+  } else if (sort === 'new') {
+    blogs = await blogService.getNew(parsedLimit)
+  } else {
+    blogs = await blogService.getAll(parsedLimit)
+  }
+
   res.send(blogs)
 })
 

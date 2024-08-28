@@ -1,11 +1,12 @@
-import BlogList from '../components/BlogList'
-import PageContainer from './components/PageContainer'
+import NewBlogs from '../components/NewBlogs'
+import TopBlogs from '../components/TopBlogs'
 
 const HomePage = () => {
   return (
-    <PageContainer header='Recent blogs' className='w-full '>
-      <BlogList />
-    </PageContainer>
+    <div className='w-11/12 mt-8 lg:mt-0 lg:w-9/12'>
+      <TopBlogs />
+      <NewBlogs />
+    </div>
   )
 }
 

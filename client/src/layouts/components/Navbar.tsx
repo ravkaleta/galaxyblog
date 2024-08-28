@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import { useUser } from '../../providers/useContexts'
 import requestConfig from '../../requests/requestConfig'
-import { Menu } from 'react-feather'
 import { useEffect, useState } from 'react'
 import NavigationDrawerMenu from './navigation/NavigationDrawerMenu'
 import NavigationHoverMenu from './navigation/NavigationHoverMenu'
 import NavigationDesktopMenu from './navigation/NavigationDesktopMenu'
+import NavigationButtonMenu from './navigation/NavigationButtonMenu'
+import SearchBar from '../../components/ui/SearchBar'
+import { User } from 'react-feather'
 
 const Navbar = () => {
   const { user, setUser } = useUser()
@@ -29,24 +31,18 @@ const Navbar = () => {
 
   const handleLogout = () => {
     setUser(null)
+    setMenuVisible(false)
     localStorage.removeItem('user')
     requestConfig.setToken('')
   }
 
   return (
     <nav
-      className={`fixed w-full transition-all ${isScrolled ? 'h-20' : 'h-40'} flex items-center justify-center z-20`}
+      className={`fixed w-full transition-all h-20 ${isScrolled ? 'lg:h-20' : 'lg:h-40'} flex items-center justify-center z-20`}
     >
-      {/* Clickable layer under drawer menu */}
-      {isMenuVisible && (
-        <button
-          onClick={() => setMenuVisible(false)}
-          className='block top-0 bg-black bg-opacity-25 backdrop-blur-sm fixed h-screen w-full lg:hidden z-20'
-        ></button>
-      )}
-      {/*  */}
-
+      {/* Mobile drawer menu */}
       <NavigationDrawerMenu
+        user={user}
         handleLogout={handleLogout}
         handleVisibility={() => setMenuVisible(false)}
         isMenuVisible={isMenuVisible}
@@ -54,38 +50,43 @@ const Navbar = () => {
 
       {/* Visible menu bar */}
       <div
-        className={`text-white flex items-center justify-between transition-all h-20 ${isScrolled ? 'w-full' : 'w-11/12'}  backdrop-blur-xl bg-black bg-opacity-50`}
+        className={`text-white flex items-center justify-between transition-all h-20 p-4 lg:px-24 w-full ${isScrolled ? 'lg:w-full' : 'lg:w-11/12'}  
+          backdrop-blur-xl bg-black bg-opacity-50`}
       >
-        <Link
-          to='/'
-          className='w-2/5 lg:w-1/5 flex items-center justify-center'
-        >
+        {/* Website logo */}
+        <Link to='/' className='flex items-center'>
           <img src='/logo2.png' alt='Website logo' width={'145px'} />
         </Link>
-        <NavigationDesktopMenu />
-        <div className='w-2/5 lg:w-1/5 flex items-center justify-end lg:justify-normal '>
-          {user ? (
-            <>
-              {/* Mobile menu button */}
-              <button
-                onClick={() => setMenuVisible(!isMenuVisible)}
-                className='lg:hidden flex items-end justify-center mr-10 border p-2 rounded-md bg-black bg-opacity-30'
-              >
-                <Menu size='24px' />
-              </button>
-              {/*  */}
 
-              <NavigationHoverMenu user={user} handleLogout={handleLogout} />
-            </>
-          ) : (
-            <Link
-              to='/login'
-              className='w-36 mr-10 lg:mr-0 text-center py-2 rounded-md text-white bg-gradient-to-br from-primary-800 to-secondary-800 lg:hover:scale-110 transition-transform ease-in-out duration-700'
-            >
-              Login
-            </Link>
-          )}
+        {user ? (
+          <Link
+            to={`/user/${user.id}`}
+            className='flex sm:hidden gap-x-2 items-center'
+          >
+            <User className='border w-8 h-8 p-1 rounded-full' />
+            {user.username}
+          </Link>
+        ) : (
+          <Link
+            to='/login'
+            className='inline-block sm:hidden w-36 text-center py-2 rounded-md text-white bg-gradient-to-br from-primary-800 to-secondary-800 hover:scale-110 transition-transform ease-in-out duration-700'
+          >
+            Login
+          </Link>
+        )}
+
+        <NavigationDesktopMenu />
+
+        <div className='hidden xl:block'>
+          <SearchBar />
         </div>
+
+        <NavigationButtonMenu
+          handleMenuVisibility={() => setMenuVisible(!isMenuVisible)}
+        />
+
+        {/* Desktop hover menu */}
+        <NavigationHoverMenu user={user} handleLogout={handleLogout} />
       </div>
     </nav>
   )
